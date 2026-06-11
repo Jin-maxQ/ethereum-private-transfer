@@ -112,136 +112,82 @@ Ethereum Blockchain
 
 ---
 
-## 실행 명령어
+## 실행 방법
 
-### 1. Genesis Block 초기화
+### 1. 프로젝트 폴더 이동
 
-```bash
-geth init genesis.json --datadir ./data
+```powershell
+cd 풀더 위치\web3-private-network
 ```
 
-### 2. 계정 생성
+### 2. Ethereum Private Network 실행
 
-```bash
-geth account new --datadir ./data
+```powershell
+geth --datadir .\data --networkid 12345 --http --http.addr 127.0.0.1 --http.port 8545 --http.corsdomain "*" --http.vhosts "*" --http.api eth,net,web3,personal,miner,txpool --allow-insecure-unlock --unlock 0xbd7583e3346135c75d308db0e5cd986d5b3c79a4 --password password.txt --mine --miner.etherbase 0xbd7583e3346135c75d308db0e5cd986d5b3c79a4
 ```
 
-### 3. Private Network 실행
+### 3. 웹 서버 실행
 
-```bash
-geth --datadir ./data ^
---networkid 12345 ^
---http ^
---http.addr 0.0.0.0 ^
---http.port 8545 ^
---http.api personal,eth,net,web3,txpool,miner ^
---allow-insecure-unlock ^
---unlock 0 ^
---password password.txt ^
---mine
+Visual Studio Code 터미널에서 다음 명령어를 실행합니다.
+
+```powershell
+python -m http.server 8000
 ```
 
-### 4. Geth Console 접속
+### 4. 웹 애플리케이션 접속
 
-```bash
+브라우저에서 다음 주소로 접속합니다.
+
+```text
+http://localhost:8000/
+```
+
+### 5. MetaMask 연결
+
+"MetaMask 지갑 연결" 버튼을 클릭하여 계정을 연결합니다.
+
+### 6. ETH 송금
+
+수신자 주소와 전송 금액을 입력한 후 "ETH 보내기" 버튼을 클릭합니다.
+
+### 7. Transaction Hash 확인
+
+거래 완료 후 생성된 Transaction Hash를 확인합니다.
+
+---
+
+## 거래 검증 방법
+
+### 1. Geth Console 접속
+
+```powershell
 geth attach http://127.0.0.1:8545
 ```
 
-### 5. 블록 번호 확인
-
-```javascript
-eth.blockNumber
-```
-
-### 6. 계정 목록 확인
-
-```javascript
-eth.accounts
-```
-
-### 7. 잔액 확인
-
-```javascript
-web3.fromWei(
-    eth.getBalance(eth.accounts[0]),
-    "ether"
-)
-```
-
-### 8. Transaction 조회
+### 2. Transaction 정보 조회
 
 ```javascript
 eth.getTransaction("TRANSACTION_HASH")
 ```
 
-### 9. Transaction Receipt 조회
+### 3. Transaction Receipt 조회
 
 ```javascript
 eth.getTransactionReceipt("TRANSACTION_HASH")
 ```
 
-### 10. 채굴 시작
+Receipt 결과에서 status 값이 1이면 거래가 성공적으로 처리된 것입니다.
+
+예시:
 
 ```javascript
-miner.start()
+{
+  status: 1,
+  blockNumber: 527,
+  gasUsed: 21000
+}
 ```
 
-### 11. 채굴 중지
-
-```javascript
-miner.stop()
-```
-
----
-
-## 실행 방법
-
-### Step 1
-
-Geth를 실행하여 Ethereum Private Network를 시작합니다.
-
-### Step 2
-
-MetaMask에 네트워크를 추가합니다.
-
-```text
-Network Name : Private Ethereum
-RPC URL      : http://127.0.0.1:8545
-Chain ID     : 12345
-Currency     : ETH
-```
-
-### Step 3
-
-프로젝트 폴더에서 index.html 파일을 실행합니다.
-
-또는 VS Code Live Server를 이용하여 실행합니다.
-
-### Step 4
-
-"MetaMask 지갑 연결" 버튼을 클릭합니다.
-
-### Step 5
-
-계정 주소와 ETH 잔액을 확인합니다.
-
-### Step 6
-
-수신자 주소와 전송 금액을 입력합니다.
-
-### Step 7
-
-"ETH 보내기" 버튼을 클릭합니다.
-
-### Step 8
-
-MetaMask에서 거래를 승인합니다.
-
-### Step 9
-
-Transaction Hash를 확인합니다.
-
----
 
 ## 시연 화면
 
